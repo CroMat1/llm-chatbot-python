@@ -10,7 +10,9 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain import hub
 from utils import get_session_id
 
+# tag::import_cypher_qa[]
 from tools.cypher import cypher_qa
+# end::import_cypher_qa[]
 
 chat_prompt = ChatPromptTemplate.from_messages(
     [
@@ -28,8 +30,8 @@ tools = [
         func=movie_chat.invoke,
     ), 
     Tool.from_function(
-        name="Graph information",
-        description="Provide information about Graph questions using Cypher",
+        name="Lineage",
+        description="Provide information about CVField Lineage ",
         func = cypher_qa
     )
 ]
@@ -38,7 +40,7 @@ def get_memory(session_id):
     return Neo4jChatMessageHistory(session_id=session_id, graph=graph)
 
 agent_prompt = PromptTemplate.from_template("""
-You are a movie expert providing information about movies.
+You are a movie expert providing information about NEO4J Loaded Graph.
 Be as helpful as possible and return as much information as possible.
 Do not answer any questions that do not relate to Cypher, Graph, SQL, HANA, Calculation Views.
 

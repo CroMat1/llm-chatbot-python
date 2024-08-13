@@ -36,3 +36,5 @@ cypher_qa = GraphCypherQAChain.from_llm(
     cypher_prompt=CYPHER_GENERATION_PROMPT
 )
 # end::cypher-qa[]
+
+cypher_qa.invoke({"query": "Show me a list with the lineage  of CVFIELD CHSBVERS of parent_node Semantics in the calculation View ZSAC.ZBDG.ZRETAIL.ZHS/CVHSB001 ? "})
