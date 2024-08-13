@@ -7,7 +7,8 @@ from langchain_community.chains.graph_qa.cypher import GraphCypherQAChain
 # end::import[]
 
 # tag::cypher-qa[]
-cypher_qa = GraphCypherQAChain.from_llm(
+cypherchain = GraphCypherQAChain.from_llm(
+_qa = GraphCypherQAChain.from_llm(
     llm,
     graph=graph,
     verbose=True
