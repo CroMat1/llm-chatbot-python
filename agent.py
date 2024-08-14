@@ -21,13 +21,14 @@ chat_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-movie_chat = chat_prompt | llm | StrOutputParser()
+general_chat = chat_prompt | llm | StrOutputParser()
 
 tools = [
     Tool.from_function(
         name="General Chat",
         description="For general Info chat not covered by other tools",
-        func=movie_chat.invoke,
+        func= general_chat
+.invoke,
     ), 
     Tool.from_function(
         name="Lineage",
@@ -40,9 +41,9 @@ def get_memory(session_id):
     return Neo4jChatMessageHistory(session_id=session_id, graph=graph)
 
 agent_prompt = PromptTemplate.from_template("""
-You are a movie expert providing information about NEO4J Loaded Graph.
+You are my graph expert providing information about NEO4J Loaded Graph.
 Be as helpful as possible and return as much information as possible.
-Do not answer any questions that do not relate to Cypher, Graph, SQL, HANA, Calculation Views.
+Do not answer any questions that do not relate to Cypher, Graph, SQL, HANA, Calculation Views and NEO4J.
 
 Do not answer any questions using your pre-trained knowledge, only use the information provided in the context.
 
