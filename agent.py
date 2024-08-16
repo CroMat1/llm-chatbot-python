@@ -11,7 +11,7 @@ from langchain import hub
 from utils.utils import get_session_id
 
 # tag::import_cypher[]
-from tools.cypher.cypher_func import cypherLineage, cypherInfo
+from tools.cypher.cypher_func import cypherLineage, cypherCvInfo, cypherNodeInfo
 # end::import_cypher[]
 
 chat_prompt = ChatPromptTemplate.from_messages(
@@ -32,13 +32,18 @@ tools = [
     Tool.from_function(
         name="Calculation View Information",
         description="Provide information about Calculation View ",
-        func = cypherInfo()
+        func = cypherCvInfo()
     ),    
+    Tool.from_function(
+        name="Nodes Information",
+        description="Provide information about nodes of Calculation View",
+        func = cypherNodeInfo()
+    ),
     Tool.from_function(
         name="Lineage",
         description="Provide information about CVField Lineage ",
         func = cypherLineage()
-    )
+    )    
 ]
 
 def get_memory(session_id):
@@ -86,15 +91,15 @@ New input: {input}
 agent = create_react_agent(llm, tools, agent_prompt)
 agent_executor = AgentExecutor(
     agent=agent,
-    tools=tools
+    tools=tools,
+    verbose=True
     )
 
 chat_agent = RunnableWithMessageHistory(
     agent_executor,
     get_memory,
     input_messages_key="input",
-    history_messages_key="chat_history",
-    verbose = True
+    history_messages_key="chat_history"
 )
 
 def generate_response(user_input):
