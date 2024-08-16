@@ -11,7 +11,7 @@ from langchain import hub
 from utils import get_session_id
 
 # tag::import_cypher_qa[]
-from tools.cypher import cypher_qa
+from tools.cypher.cypher import cypher_qa
 # end::import_cypher_qa[]
 
 chat_prompt = ChatPromptTemplate.from_messages(
