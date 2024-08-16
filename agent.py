@@ -10,9 +10,9 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain import hub
 from utils.utils import get_session_id
 
-# tag::import_cypher_qa[]
-from tools.cypher.cypher import cypher_qa
-# end::import_cypher_qa[]
+# tag::import_cypher[]
+from tools.cypher.cypher_func import cypherLineage, cypherInfo
+# end::import_cypher[]
 
 chat_prompt = ChatPromptTemplate.from_messages(
     [
@@ -27,13 +27,17 @@ tools = [
     Tool.from_function(
         name="General Chat",
         description="For general Info chat not covered by other tools",
-        func= general_chat
-.invoke,
+        func= general_chat.invoke,
     ), 
+    Tool.from_function(
+        name="Calculation View Information",
+        description="Provide information about Calculation View ",
+        func = cypherInfo()
+    ),    
     Tool.from_function(
         name="Lineage",
         description="Provide information about CVField Lineage ",
-        func = cypher_qa
+        func = cypherLineage()
     )
 ]
 
@@ -82,8 +86,7 @@ New input: {input}
 agent = create_react_agent(llm, tools, agent_prompt)
 agent_executor = AgentExecutor(
     agent=agent,
-    tools=tools,
-    verbose=True
+    tools=tools
     )
 
 chat_agent = RunnableWithMessageHistory(
@@ -91,6 +94,7 @@ chat_agent = RunnableWithMessageHistory(
     get_memory,
     input_messages_key="input",
     history_messages_key="chat_history",
+    verbose = True
 )
 
 def generate_response(user_input):

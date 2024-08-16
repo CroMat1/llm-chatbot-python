@@ -1,6 +1,6 @@
 examples = """
 
-1. Lineage of CV Starting CV Field of CalcView and CVNode with all the element of the path
+1. Lineage of CV Field of CalcView and CVNode with all the element of the path
 match Path = (start:CVField {{Name:"StartingCVField", parentCV : "Calc_View", parent_node :"CVNode"}} ) -[:IS_MAPPED*]-(end:DBField) 
 UNWIND Nodes(Path) as element
 RETURN 
@@ -27,6 +27,5 @@ RETURN
     WHEN "DBField" IN labels(element) THEN element.Schema
     ELSE element.parentCV
   END AS Source
-
 
 """

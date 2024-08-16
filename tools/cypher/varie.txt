@@ -1,0 +1,8 @@
+3 Lineage of CV Field of CalcView returning the last element  
+match Path = (start:CVField {{Name:"CHSBVERS", parentCV : "ZSAC.ZBDG.ZRETAIL.ZHS/CVHSB001", parent_node :"Semantics"}}) -[:IS_MAPPED*]-(end:DBField) 
+RETURN end.Name, end.Object, end.Schema
+
+
+4 Lineage of CV Field of CalcView and CVNode returning the last element  
+match Path = (start:CVField {{Name:"CHSBVERS", parentCV : "ZSAC.ZBDG.ZRETAIL.ZHS/CVHSB001", parent_node :"Semantics"}}) -[:IS_MAPPED*]-(end:DBField) 
+RETURN end.Name, end.Object, end.Schema
