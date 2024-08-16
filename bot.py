@@ -1,12 +1,12 @@
 import streamlit as st
-from utils import write_message
+from utils.utils import write_message
 # tag::import_agent[]
 from agent import generate_response
 # end::import_agent[]
 
 # tag::setup[]
 # Page Config
-st.set_page_config("Ebert", page_icon=":movie_camera:")
+st.set_page_config("Hana Detective", page_icon=":desktop_computer:")
 # end::setup[]
 
 # tag::session[]

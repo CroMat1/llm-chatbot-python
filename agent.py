@@ -8,7 +8,7 @@ from langchain_community.chat_message_histories import Neo4jChatMessageHistory
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain import hub
-from utils import get_session_id
+from utils.utils import get_session_id
 
 # tag::import_cypher_qa[]
 from tools.cypher.cypher import cypher_qa
