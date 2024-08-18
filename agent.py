@@ -11,7 +11,9 @@ from langchain import hub
 from utils.utils import get_session_id
 
 # tag::import_cypher[]
-from tools.cypher.cypher_func import cypherLineage, cypherCvInfo, cypherNodeInfo
+from tools.cypher.cypher_lineage import cypher_lineage
+from tools.cypher.cypher_cv_info import cypher_cv
+from tools.cypher.cypher_cv_fields import cypher_fields
 # end::import_cypher[]
 
 chat_prompt = ChatPromptTemplate.from_messages(
@@ -31,18 +33,18 @@ tools = [
     ), 
     Tool.from_function(
         name="Calculation View Information",
-        description="Provide information about Calculation View ",
-        func = cypherCvInfo()
+        description="Answer to all the questions related to the calculation view",
+        func = cypher_cv
     ),    
     Tool.from_function(
-        name="Nodes Information",
-        description="Provide information about nodes of Calculation View",
-        func = cypherNodeInfo()
-    ),
+        name="CVFields Information",
+        description="Answer to all the questions related to the fields of calculation view",
+        func = cypher_fields
+    ),     
     Tool.from_function(
         name="Lineage",
-        description="Provide information about CVField Lineage ",
-        func = cypherLineage()
+        description="Provide information about Lineage ",
+        func = cypher_lineage
     )    
 ]
 
@@ -104,12 +106,15 @@ chat_agent = RunnableWithMessageHistory(
 
 def generate_response(user_input):
     """
-    Create a handler that calls the Conversational agent
-    and returns a response to be rendered in the UI
+    Create a handler that calls the Conversational agent  and returns a response to be rendered in the UI
     """
-
     response = chat_agent.invoke(
-        {"input": user_input},
-        {"configurable": {"session_id": get_session_id()}},)
+            {"input": user_input},
+            {"configurable": 
+                {
+                    "session_id": get_session_id()
+                }
+            }
+        )
 
     return response['output']
